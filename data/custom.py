@@ -22,7 +22,7 @@ CUSTOM_CLASSES = (  # always index 0
     'garbage', 'www', 'garbagew', 'w')
 
 # note: if you used our download scripts, this should be right
-CUSTOM_ROOT = osp.join(HOME, "data/piaofu/piao")
+CUSTOM_ROOT = osp.join(HOME, "data/piaofu/piao/")
 
 
 class customAnnotationTransform(object):
