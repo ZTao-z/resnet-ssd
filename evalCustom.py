@@ -17,7 +17,8 @@ from data import BaseTransform
 from data.custom import CUSTOM_CLASSES as labelmap
 from data.custom import customDetection, customAnnotationTransform, CUSTOM_CLASSES, CUSTOM_ROOT
 
-from ssd import build_ssd
+# from ssd import build_ssd
+from ssd_resnet import build_ssd
 
 import sys
 import os

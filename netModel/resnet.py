@@ -212,18 +212,18 @@ class ResNet(nn.Module):
         x = self.maxpool(x)
 
         x = self.layer1(x)
-        layer1_feat = x
+        # layer1_feat = x
         x = self.layer2(x)
-        layer2_feat = x
+        # layer2_feat = x
         x = self.layer3(x)
-        layer3_feat = x
+        # layer3_feat = x
         x = self.layer4(x)
 
-        # x = self.avgpool(x)
-        # x = torch.flatten(x, 1)
-        # x = self.fc(x)
+        x = self.avgpool(x)
+        x = torch.flatten(x, 1)
+        x = self.fc(x)
 
-        return x, layer1_feat, layer2_feat, layer3_feat
+        return x
 
     # Allow for accessing forward method in a inherited class
     forward = _forward

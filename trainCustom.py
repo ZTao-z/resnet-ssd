@@ -1,7 +1,7 @@
 from data import *
 from utils.augmentations import SSDAugmentation
 from layers.modules import MultiBoxLoss
-from ssd import build_ssd
+from ssd_resnet import build_ssd
 import os
 import sys
 import time
@@ -116,9 +116,10 @@ def train():
         print('Resuming training, loading {}...'.format(args.resume))
         ssd_net.load_weights(args.resume)
     else:
-        vgg_weights = torch.load(args.save_folder + args.basenet)
-        print('Loading base network...')
-        ssd_net.vgg.load_state_dict(vgg_weights)
+        pass
+        # resnet_weights = torch.load(args.save_folder + args.basenet)
+        # print('Loading base network...')
+        # ssd_net.resnet.load_state_dict(resnet_weights)
 
     if args.cuda:
         net = net.cuda()

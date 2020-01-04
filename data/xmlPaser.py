@@ -18,7 +18,10 @@ class MovieHandler( xml.sax.ContentHandler ):
     # 元素结束事件处理
     def endElement(self, tag):
         if self.CurrentData == "name":
-            total[self.name] = 1
+            if self.name in total:
+                total[self.name] += 1
+            else:
+                total[self.name] = 1
         self.CurrentData = ""
  
     # 内容事件处理
@@ -37,7 +40,7 @@ if ( __name__ == "__main__"):
     Handler = MovieHandler()
     parser.setContentHandler( Handler )
 
-    path = '.\\Annotations'
+    path = '.\\piaofu\\piao\\shenhe\\Annotations'
     p = Path(path)
     files = [x for x in p.iterdir() if x.is_file()]
     for f in files:

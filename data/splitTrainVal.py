@@ -1,6 +1,6 @@
 from pathlib import Path, PurePath
 
-resultPath = ".\\ImageSets\\Main\\"
+resultPath = ".\\piaofu\\piao\\shenhe\\ImageSets\\Main\\"
 def splitDataset(path, filename):
     p = Path(path)
     files = [x for x in p.iterdir() if x.is_file()]
@@ -16,4 +16,4 @@ def splitDataset(path, filename):
                         ft.write(file.stem + '\n')
                     count += 1
 
-splitDataset('.\\Annotations', '')
+splitDataset('.\\piaofu\\piao\\shenhe\\Annotations', '')

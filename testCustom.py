@@ -11,7 +11,8 @@ from torch.autograd import Variable
 from PIL import Image
 # from data import VOCAnnotationTransform, VOCDetection, BaseTransform, VOC_CLASSES
 import torch.utils.data as data
-from ssd import build_ssd
+from ssd_resnet import build_ssd
+# from ssd import build_ssd
 from data import BaseTransform
 
 from data.custom import CUSTOM_ROOT, CUSTOM_CLASSES as labelmap
