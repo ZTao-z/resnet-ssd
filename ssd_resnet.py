@@ -73,7 +73,7 @@ class SSD(nn.Module):
         conf = list()
 
         # apply resnet up to layer2
-        resnet_result = []
+        resnet_result = [x]
         x_0 = x
         x_1 = x
         x_2 = x
@@ -138,18 +138,18 @@ class SSD(nn.Module):
             print('Sorry only .pth and .pkl files supported.')
 
 def resnet():
-    resnet = resnet34(pretrained=True, multi_flow_network_id=0)
     multi_resnet_1 = resnet34(pretrained=True, multi_flow_network_id=1)
     multi_resnet_2 = resnet34(pretrained=True, multi_flow_network_id=2)
+    multi_resnet_3 = resnet34(pretrained=True, multi_flow_network_id=3)
     layers = [
         # first network
-        resnet.conv1,
-        resnet.bn1,
-        resnet.relu,
-        resnet.maxpool,
-        resnet.layer1,
-        resnet.layer2,
-        resnet.layer3,
+        multi_resnet_1.conv1,
+        multi_resnet_1.bn1,
+        multi_resnet_1.relu,
+        multi_resnet_1.maxpool,
+        multi_resnet_1.layer1,
+        multi_resnet_1.layer2,
+        multi_resnet_1.layer3,
         # second network
         multi_resnet_1.conv1,
         multi_resnet_1.bn1,
@@ -167,7 +167,7 @@ def resnet():
         multi_resnet_2.layer2,
         multi_resnet_2.layer3,
         # total
-        resnet.layer4,
+        multi_resnet_1.layer4,
     ]
     return layers
 
