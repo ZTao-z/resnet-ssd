@@ -261,7 +261,9 @@ def resnet34(pretrained=False, progress=True, output_stride=32, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet('resnet34', BasicBlock, [3, 4, 6, 3], output_stride, pretrained, progress,
+    # return _resnet('resnet34', BasicBlock, [3, 4, 6, 3], output_stride, pretrained, progress,
+    #                **kwargs)
+    return _resnet('resnet34', BasicBlock, [1, 2, 3, 1], output_stride, pretrained, progress,
                    **kwargs)
 
 

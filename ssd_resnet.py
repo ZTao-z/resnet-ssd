@@ -138,9 +138,9 @@ class SSD(nn.Module):
             print('Sorry only .pth and .pkl files supported.')
 
 def resnet():
-    multi_resnet_1 = resnet34(pretrained=True, multi_flow_network_id=1)
-    multi_resnet_2 = resnet34(pretrained=True, multi_flow_network_id=2)
-    multi_resnet_3 = resnet34(pretrained=True, multi_flow_network_id=3)
+    multi_resnet_1 = resnet34(pretrained=False, multi_flow_network_id=1)
+    multi_resnet_2 = resnet34(pretrained=False, multi_flow_network_id=2)
+    multi_resnet_3 = resnet34(pretrained=False, multi_flow_network_id=3)
     layers = [
         # first network
         multi_resnet_1.conv1,
