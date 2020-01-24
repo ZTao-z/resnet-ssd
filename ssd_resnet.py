@@ -73,7 +73,7 @@ class SSD(nn.Module):
         conf = list()
 
         # apply resnet up to layer2
-        resnet_result = [x]
+        resnet_result = []
         x_0 = x
         x_1 = x
         x_2 = x
@@ -91,14 +91,15 @@ class SSD(nn.Module):
         resnet_result.append(x_2)
 
         x = torch.cat(resnet_result, 1)
-        sources.append(x)
-
+        x = nn.Conv2d(x.shape[1], 512, 1)(x)
+        # sources.append(x)
+        
         # apply resnet up to layer4
-        for k in range(22, len(self.multi_resnet)):
+        for k in range(21, len(self.multi_resnet)):
             x = self.multi_resnet[k](x)
 
-        s = self.L2Norm(x)
-        sources.append(s)
+        # s = self.L2Norm(x)
+        sources.append(x)
 
         # apply extra layers and cache source layer outputs
         for k, v in enumerate(self.extras):
@@ -138,9 +139,9 @@ class SSD(nn.Module):
             print('Sorry only .pth and .pkl files supported.')
 
 def resnet():
-    multi_resnet_1 = resnet34(pretrained=False, multi_flow_network_id=1)
-    multi_resnet_2 = resnet34(pretrained=False, multi_flow_network_id=2)
-    multi_resnet_3 = resnet34(pretrained=False, multi_flow_network_id=3)
+    multi_resnet_1 = resnet34(pretrained=False, multi_flow_network_id=0)
+    multi_resnet_2 = resnet34(pretrained=False, multi_flow_network_id=1)
+    multi_resnet_3 = resnet34(pretrained=False, multi_flow_network_id=2)
     layers = [
         # first network
         multi_resnet_1.conv1,
@@ -151,14 +152,6 @@ def resnet():
         multi_resnet_1.layer2,
         multi_resnet_1.layer3,
         # second network
-        multi_resnet_1.conv1,
-        multi_resnet_1.bn1,
-        multi_resnet_1.relu,
-        multi_resnet_1.maxpool,
-        multi_resnet_1.layer1,
-        multi_resnet_1.layer2,
-        multi_resnet_1.layer3,
-        # third network
         multi_resnet_2.conv1,
         multi_resnet_2.bn1,
         multi_resnet_2.relu,
@@ -166,6 +159,14 @@ def resnet():
         multi_resnet_2.layer1,
         multi_resnet_2.layer2,
         multi_resnet_2.layer3,
+        # third network
+        multi_resnet_3.conv1,
+        multi_resnet_3.bn1,
+        multi_resnet_3.relu,
+        multi_resnet_3.maxpool,
+        multi_resnet_3.layer1,
+        multi_resnet_3.layer2,
+        multi_resnet_3.layer3,
         # total
         multi_resnet_1.layer4,
     ]
@@ -191,7 +192,7 @@ def add_extras(cfg, i, batch_norm=False):
 def multibox(resnet, extra_layers, cfg, num_classes):
     loc_layers = []
     conf_layers = []
-    resnet_source = [-1, -1]
+    resnet_source = [-1]
     for k, v in enumerate(resnet_source):
         loc_layers += [nn.Conv2d(resnet[v][-1].conv2.out_channels,
                                  cfg[k] * 4, kernel_size=3, padding=1)]

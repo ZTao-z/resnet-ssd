@@ -150,7 +150,10 @@ class ResNet(nn.Module):
         self.base_width = width_per_group
         # self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=7, stride=2, padding=3,
         #                        bias=False)
-        self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=7, stride=1, padding=3, dilation=(2 * multi_flow_network_id) if multi_flow_network_id else 1,
+        conv1_dilation = (2 * multi_flow_network_id) if multi_flow_network_id else 1
+        conv1_real_kernel_size = conv1_dilation * ( 7 - 1 ) + 1
+        conv1_padding = int(((300 - 1) * 1 - 300 + conv1_real_kernel_size) / 2)
+        self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=7, stride=1, padding=conv1_padding, dilation=conv1_dilation,
                                bias=False)
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)
@@ -162,7 +165,8 @@ class ResNet(nn.Module):
                                        dilate=replace_stride_with_dilation[1])
         # self.layer4 = self._make_layer(block, 512, layers[3], stride=strides[3],
         #                                dilate=replace_stride_with_dilation[2])
-        self.layer4 = self._make_layer(block, 512, layers[3], stride=2,
+        self.nouse_layer = self._make_layer(block, 512, layers[3])
+        self.layer4 = self._make_layer(block, 1024, layers[3], stride=2,
                                        dilate=replace_stride_with_dilation[2])
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.fc = nn.Linear(512 * block.expansion, num_classes)
