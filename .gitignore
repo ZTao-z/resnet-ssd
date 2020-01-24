@@ -125,6 +125,7 @@ data/datasets/
 data/ssd_dataloader.py
 data/piaofu
 data/VOCdevkit
+data/
 
 # pylint
 .pylintrc
