@@ -215,11 +215,8 @@ class ResNet(nn.Module):
         x = self.maxpool(x)
 
         x = self.layer1(x)
-        # layer1_feat = x
         x = self.layer2(x)
-        # layer2_feat = x
         x = self.layer3(x)
-        # layer3_feat = x
         x = self.layer4(x)
 
         x = self.avgpool(x)
@@ -263,7 +260,7 @@ def resnet34(pretrained=False, progress=True, output_stride=32, **kwargs):
     """
     # return _resnet('resnet34', BasicBlock, [3, 4, 6, 3], output_stride, pretrained, progress,
     #                **kwargs)
-    return _resnet('resnet34', BasicBlock, [1, 2, 3, 1], output_stride, pretrained, progress,
+    return _resnet('resnet34', BasicBlock, [1, 1, 1, 3], output_stride, pretrained, progress,
                    **kwargs)
 
 
