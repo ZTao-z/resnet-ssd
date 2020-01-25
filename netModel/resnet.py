@@ -264,7 +264,7 @@ def resnet34(pretrained=False, progress=True, output_stride=32, **kwargs):
     """
     # return _resnet('resnet34', BasicBlock, [3, 4, 6, 3], output_stride, pretrained, progress,
     #                **kwargs)
-    return _resnet('resnet34', BasicBlock, [1, 2, 2, 3], output_stride, pretrained, progress,
+    return _resnet('resnet34', BasicBlock, [2, 2, 2, 3], output_stride, pretrained, progress,
                    **kwargs)
 
 
