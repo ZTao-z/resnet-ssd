@@ -91,11 +91,11 @@ class SSD(nn.Module):
         resnet_result.append(x_2)
 
         x = torch.cat(resnet_result, 1)
-        x = nn.Conv2d(x.shape[1], 512, 1)(x)
+        x = self.multi_resnet[21](x)
         # sources.append(x)
-        
+
         # apply resnet up to layer4
-        for k in range(21, len(self.multi_resnet)):
+        for k in range(22, len(self.multi_resnet)):
             x = self.multi_resnet[k](x)
 
         # s = self.L2Norm(x)
@@ -167,6 +167,7 @@ def resnet():
         multi_resnet_3.layer1,
         multi_resnet_3.layer2,
         multi_resnet_3.layer3,
+        nn.Conv2d(768, 512, 1),
         # total
         multi_resnet_1.layer4,
     ]
