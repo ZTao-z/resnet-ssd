@@ -77,6 +77,7 @@ class SSD(nn.Module):
         x_0 = x
         x_1 = x
         x_2 = x
+        x_3 = x
         # origin resnet
         for k in range(0,7):
             x_0 = self.multi_resnet[k](x_0)
@@ -90,12 +91,16 @@ class SSD(nn.Module):
             x_2 = self.multi_resnet[k](x_2)
         resnet_result.append(x_2)
 
+        for k in range(21, 28):
+            x_3 = self.multi_resnet[k](x_3)
+        resnet_result.append(x_3)
+
         x = torch.cat(resnet_result, 1)
-        x = self.multi_resnet[21](x)
+        x = self.multi_resnet[28](x)
         # sources.append(x)
 
         # apply resnet up to layer4
-        for k in range(22, len(self.multi_resnet)):
+        for k in range(29, len(self.multi_resnet)):
             x = self.multi_resnet[k](x)
 
         # s = self.L2Norm(x)
@@ -142,6 +147,7 @@ def resnet():
     multi_resnet_1 = resnet34(pretrained=False, multi_flow_network_id=0)
     multi_resnet_2 = resnet34(pretrained=False, multi_flow_network_id=1)
     multi_resnet_3 = resnet34(pretrained=False, multi_flow_network_id=2)
+    multi_resnet_4 = resnet34(pretrained=False, multi_flow_network_id=3)
     layers = [
         # first network
         multi_resnet_1.conv1,
@@ -167,7 +173,15 @@ def resnet():
         multi_resnet_3.layer1,
         multi_resnet_3.layer2,
         multi_resnet_3.layer3,
-        nn.Conv2d(768, 512, 1),
+        # forth network
+        multi_resnet_4.conv1,
+        multi_resnet_4.bn1,
+        multi_resnet_4.relu,
+        multi_resnet_4.maxpool,
+        multi_resnet_4.layer1,
+        multi_resnet_4.layer2,
+        multi_resnet_4.layer3,
+        nn.Conv2d(1024, 512, 1),
         # total
         multi_resnet_1.layer4,
     ]
