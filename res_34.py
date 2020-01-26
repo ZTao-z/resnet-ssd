@@ -131,11 +131,11 @@ class SSD(nn.Module):
         head: "multibox head" consists of loc and conf conv layers
     """
 
-    def __init__(self, phase, size, base, extras, head, num_classes,resnet18):
+    def __init__(self, phase, size, base, extras, head, num_classes, resnet18):
         super(SSD, self).__init__()
         self.phase = phase
         self.num_classes = num_classes
-        self.cfg = VOC_300_2
+        self.cfg = (coco, voc, custom)[num_classes == 5]
         self.priorbox = PriorBox(self.cfg)
         self.priors = Variable(self.priorbox.forward(), volatile=True)
         self.size = size
