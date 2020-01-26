@@ -411,12 +411,14 @@ class SSD(nn.Module):
         if self.phase == "test":
             output = (
                 loc.view(loc.size(0), -1, 4),                   # loc preds
-                self.softmax(conf.view(-1, self.num_classes)),  # conf preds
+                self.softmax(conf.view(conf.size(0), -1, self.num_classes)),  # conf preds
+                self.priors.type(type(x.data)) 
             )
         else:
             output = (
                 loc.view(loc.size(0), -1, 4),
                 conf.view(conf.size(0), -1, self.num_classes),
+                self.priors
             )
         return output
 
@@ -659,4 +661,4 @@ def build_ssd(phase, size=300, num_classes=21):
     base_, extras_, head_ = multibox(vgg(base[str(size)], 3),
                                      add_extras(extras[str(size)], 1024),
                                      mbox[str(size)], num_classes)
-    return SSD(phase, size, base_, extras_, head_, num_classes,resnet18())
+    return SSD(phase, size, base_, extras_, head_, num_classes, resnet18())
