@@ -129,9 +129,51 @@ def train():
     if not args.resume:
         print('Initializing weights...')
         # initialize newly added layers' weights with xavier method
+        # ssd_net.extras.apply(weights_init)
+        # ssd_net.loc.apply(weights_init)
+        # ssd_net.conf.apply(weights_init)
+        def xavier(param):
+        init.xavier_uniform(param)
+
+        def weights_init(m):
+            for key in m.state_dict():
+                if key.split('.')[-1] == 'weight':
+                    if 'conv' in key:
+                        init.kaiming_normal(m.state_dict()[key], mode='fan_out')
+                    if 'bn' in key:
+                        m.state_dict()[key][...] = 1
+                elif key.split('.')[-1] == 'bias':
+                    m.state_dict()[key][...] = 0
+        def weights_init1(m):
+            if isinstance(m, nn.Conv2d):
+                xavier(m.weight.data)
+        print('Initializing weights...')
+    # initialize newly added layers' weights with kaiming_normal method
+        ssd_net.vgg1.apply(weights_init)
+        ssd_net.vgg2.apply(weights_init)
+        #ssd_net.vgg3.apply(weights_init)
+        #ssd_net.vgg4.apply(weights_init)
+        ssd_net.vgg5.apply(weights_init)
+        ssd_net.vgg6.apply(weights_init)
+        ssd_net.vgg7.apply(weights_init)
+        ssd_net.vgg8.apply(weights_init)
+        ssd_net.de1.apply(weights_init)
+        ssd_net.de2.apply(weights_init)
+        ssd_net.de3.apply(weights_init)
+        ssd_net.de4.apply(weights_init)
+        ssd_net.ds5_3.apply(weights_init)
+        ssd_net.ds10_5.apply(weights_init)
+        ssd_net.ds19_10.apply(weights_init)
+        ssd_net.ds38_19.apply(weights_init)
+        #ssd_net.de5_19.apply(weights_init)
+        #ssd_net.de10_38.apply(weights_init)
         ssd_net.extras.apply(weights_init)
-        ssd_net.loc.apply(weights_init)
         ssd_net.conf.apply(weights_init)
+        ssd_net.loc.apply(weights_init)
+        ssd_net.d19sample1.apply(weights_init1)
+        ssd_net.d19sample2.apply(weights_init1)
+        ssd_net.d19sample3.apply(weights_init1)
+        ssd_net.con_press38.apply(weights_init)
 
     optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=args.momentum,
                           weight_decay=args.weight_decay)
