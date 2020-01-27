@@ -98,7 +98,7 @@ def train():
     elif args.dataset == 'CUSTOM':
         if args.dataset_root == VOC_ROOT or args.dataset_root == COCO_ROOT:
             parser.error('Must specify dataset if specifying dataset_root')
-        cfg = custom
+        cfg = VOC_300_2
         dataset = customDetection(root=args.dataset_root,
                                transform=SSDAugmentation(cfg['min_dim'],
                                                          MEANS))
