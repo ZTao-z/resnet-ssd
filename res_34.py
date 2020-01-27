@@ -606,6 +606,7 @@ def add_extras(cfg, i, batch_norm=False):
 
 
 def multibox(vgg, extra_layers, cfg, num_classes):
+    class_size = 5
     loc_layers = [
         torch.nn.Conv2d(512, 24, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
         # torch.nn.Conv2d(512, 24, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
@@ -619,14 +620,14 @@ def multibox(vgg, extra_layers, cfg, num_classes):
 
     ]
     conf_layers = [
-        torch.nn.Conv2d(512, 6*21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
+        torch.nn.Conv2d(512, 6*class_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
         # torch.nn.Conv2d(512, 126, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
         # torch.nn.Conv2d(512, 84, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
-        torch.nn.Conv2d(1024, 6*21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
-        torch.nn.Conv2d(512, 6*21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
-        torch.nn.Conv2d(512, 6*21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
+        torch.nn.Conv2d(1024, 6*class_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
+        torch.nn.Conv2d(512, 6*class_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
+        torch.nn.Conv2d(512, 6*class_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
         # ,
-        torch.nn.Conv2d(512, 6*21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
+        torch.nn.Conv2d(512, 6*class_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
         # torch.nn.Conv2d(512, 84, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
 
     ]
