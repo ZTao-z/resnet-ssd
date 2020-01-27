@@ -133,7 +133,7 @@ def train():
         # ssd_net.loc.apply(weights_init)
         # ssd_net.conf.apply(weights_init)
         def xavier(param):
-        init.xavier_uniform(param)
+            init.xavier_uniform(param)
 
         def weights_init(m):
             for key in m.state_dict():
@@ -148,7 +148,7 @@ def train():
             if isinstance(m, nn.Conv2d):
                 xavier(m.weight.data)
         print('Initializing weights...')
-    # initialize newly added layers' weights with kaiming_normal method
+        # initialize newly added layers' weights with kaiming_normal method
         ssd_net.vgg1.apply(weights_init)
         ssd_net.vgg2.apply(weights_init)
         #ssd_net.vgg3.apply(weights_init)
