@@ -135,7 +135,7 @@ class SSD(nn.Module):
         super(SSD, self).__init__()
         self.phase = phase
         self.num_classes = num_classes
-        self.cfg = (coco, voc, custom)[num_classes == 5]
+        self.cfg = VOC_300_2
         self.priorbox = PriorBox(self.cfg)
         self.priors = Variable(self.priorbox.forward(), volatile=True)
         self.size = size

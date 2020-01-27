@@ -2,7 +2,7 @@
 import os.path
 
 # gets home dir cross platform
-HOME = "F:/ssd/"# os.path.expanduser("~")
+HOME = os.path.expanduser("~")
 
 # for making bounding boxes pretty
 COLORS = ((255, 0, 0, 128), (0, 255, 0, 128), (0, 0, 255, 128),
@@ -23,6 +23,21 @@ custom = {
     'aspect_ratios': [[2], [2, 3], [2, 3], [2, 3], [2], [2]],
     'variance': [0.1, 0.2],
     'clip': True,
+    'name': 'CUSTOM',
+}
+
+VOC_300_2 = {
+    'num_classes':  5,
+    'lr_steps': (80000, 100000, 120000),
+    'max_iter': 120000,
+    'feature_maps' : [38, 19, 10, 5, 3],
+    'min_dim' : 300,
+    'steps' : [8, 16, 32, 64, 100],
+    'min_sizes' : [30, 60, 111, 162, 213],
+    'max_sizes' : [60, 111, 162, 213, 315],
+    'aspect_ratios' : [[2,3], [2, 3], [2, 3], [2, 3], [2,3]],
+    'variance' : [0.1, 0.2],
+    'clip' : True,
     'name': 'CUSTOM',
 }
 
