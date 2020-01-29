@@ -223,7 +223,7 @@ class SSD(nn.Module):
                                          nn.BatchNorm2d(128))
         '''
         if phase == 'test':
-            self.softmax = nn.Softmax()
+            self.softmax = nn.Softmax(dim=-1)
             self.detect = Detect(num_classes, 0, 200, 0.01, 0.45)
 
     def forward(self, x):
