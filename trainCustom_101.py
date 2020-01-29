@@ -74,7 +74,6 @@ if not os.path.exists(args.save_folder):
 
 
 def train():
-    MEANS = (104,117,123)
     if args.dataset == 'COCO':
         if args.dataset_root == VOC_ROOT:
             if not os.path.exists(COCO_ROOT):
