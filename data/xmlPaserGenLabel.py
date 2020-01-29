@@ -102,13 +102,16 @@ if ( __name__ == "__main__"):
         parser.parse(path+'\\'+f.name)
         result.append(r)
     for r in result:
-        with open(".\\labels\\" + r['file'] + ".txt", "w") as f:
-            width = r['data']['size']['width']
-            height = r['data']['size']['height']
-            for b in r['data']['boxes']:
-                center_x = (b['xmax'] + b['xmin']) / 2 / width
-                center_y = (b['ymax'] + b['ymax']) / 2 / height
-                width_x = (b['xmax'] - b['xmin']) / width
-                height_y = (b['ymax'] - b['ymin']) / height
-                label_idx = label[b['name']]
-                f.write(str(label_idx) + ' ' + str(center_x) + ' ' + str(center_y) + ' ' + str(width_x) + ' ' + str(height_y) + "\n")
+        # with open(".\\labels\\" + r['file'] + ".txt", "w") as f:
+        width = r['data']['size']['width']
+        height = r['data']['size']['height']
+        for b in r['data']['boxes']:
+            center_x = (b['xmax'] + b['xmin']) / 2 / width
+            center_y = (b['ymax'] + b['ymax']) / 2 / height
+            width_x = (b['xmax'] - b['xmin']) / width
+            height_y = (b['ymax'] - b['ymin']) / height
+            label_idx = label[b['name']]
+            if (b['name'] != 'garbage'):
+                print(r['file'])
+                break
+            # f.write(str(label_idx) + ' ' + str(center_x) + ' ' + str(center_y) + ' ' + str(width_x) + ' ' + str(height_y) + "\n")
