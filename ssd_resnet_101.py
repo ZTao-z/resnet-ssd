@@ -158,7 +158,6 @@ def resnet():
         resnet.layer3,
         resnet.layer4,
     ]
-    print(layers)
     return layers
 
 def add_extras(cfg, i, batch_norm=False):
