@@ -19,7 +19,7 @@ else:
 
 # {'garbage': 1, 'garbagew': 1, 'www': 1, 'w': 1}
 CUSTOM_CLASSES = (  # always index 0
-    'garbage')
+    'garbage',)
     # 'garbage', 'www', 'garbagew', 'w')
 
 # note: if you used our download scripts, this should be right
