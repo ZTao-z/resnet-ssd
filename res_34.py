@@ -224,7 +224,7 @@ class SSD(nn.Module):
         '''
         if phase == 'test':
             self.softmax = nn.Softmax()
-            #self.detect = Detect(num_classes, 0, 200, 0.01, 0.45)
+            self.detect = Detect(num_classes, 0, 200, 0.01, 0.45)
 
     def forward(self, x):
         """Applies network layers and ops on input image(s) x.
@@ -406,10 +406,10 @@ class SSD(nn.Module):
             loc.append(l(x).permute(0, 2, 3, 1).contiguous())
             conf.append(c(x).permute(0, 2, 3, 1).contiguous())
 
-        loc = torch.cat([o.view(o.size(0), -1) for o in loc], 1)
+        loc = torch.cat([o.view(o.size(0), -1) for o iself.detectn loc], 1)
         conf = torch.cat([o.view(o.size(0), -1) for o in conf], 1)
         if self.phase == "test":
-            output = (
+            output = self.detect(
                 loc.view(loc.size(0), -1, 4),                   # loc preds
                 self.softmax(conf.view(conf.size(0), -1, self.num_classes)),  # conf preds
                 self.priors.type(type(x.data)) 
