@@ -111,7 +111,7 @@ if ( __name__ == "__main__"):
             width_x = (b['xmax'] - b['xmin']) / width
             height_y = (b['ymax'] - b['ymin']) / height
             label_idx = label[b['name']]
-            if (b['name'] != 'garbage'):
+            if width_x == 0 or height_y == 0: # (b['name'] != 'garbage'):
                 print(r['file'])
                 break
             # f.write(str(label_idx) + ' ' + str(center_x) + ' ' + str(center_y) + ' ' + str(width_x) + ' ' + str(height_y) + "\n")
