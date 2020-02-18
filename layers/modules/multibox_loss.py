@@ -45,7 +45,7 @@ class MultiBoxLoss(nn.Module):
         self.negpos_ratio = neg_pos
         self.neg_overlap = neg_overlap
         self.variance = cfg['variance']
-        self.FL = FocalLoss(class_num=cfg['num_classes'], alpha=0.25, gamma=2)
+        self.FL = FocalLoss(class_num=cfg['num_classes'])
 
     def forward(self, predictions, targets):
         """Multibox Loss
