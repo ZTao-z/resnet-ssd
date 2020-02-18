@@ -88,7 +88,7 @@ if ( __name__ == "__main__"):
     Handler = MovieHandler()
     parser.setContentHandler( Handler )
 
-    path = '.\\piaofu\\piao\\shenhe\\Annotations'
+    path = './piaofu/piao/shenhe/Annotations'
     p = Path(path)
     files = [x for x in p.iterdir() if x.is_file()]
     for f in files:
@@ -99,7 +99,7 @@ if ( __name__ == "__main__"):
                 'boxes': []
             }
         }
-        parser.parse(path+'\\'+f.name)
+        parser.parse(path+'/'+f.name)
         result.append(r)
     for r in result:
         # with open(".\\labels\\" + r['file'] + ".txt", "w") as f:
@@ -111,7 +111,7 @@ if ( __name__ == "__main__"):
             width_x = (b['xmax'] - b['xmin']) / width
             height_y = (b['ymax'] - b['ymin']) / height
             label_idx = label[b['name']]
-            if width_x == 0 or height_y == 0: # (b['name'] != 'garbage'):
+            if width_x == 0 or height_y == 0 or (b['name'] != 'garbage'):
                 print(r['file'])
                 break
             # f.write(str(label_idx) + ' ' + str(center_x) + ' ' + str(center_y) + ' ' + str(width_x) + ' ' + str(height_y) + "\n")

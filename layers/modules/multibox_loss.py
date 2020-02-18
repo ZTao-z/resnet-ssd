@@ -5,6 +5,7 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 from data import coco as cfg
 from ..box_utils import match, log_sum_exp
+from .focal_loss import FocalLoss
 
 
 class MultiBoxLoss(nn.Module):
@@ -44,6 +45,7 @@ class MultiBoxLoss(nn.Module):
         self.negpos_ratio = neg_pos
         self.neg_overlap = neg_overlap
         self.variance = cfg['variance']
+        self.FL = FocalLoss(class_num=cfg['num_classes'], alpha=0.25, gamma=2)
 
     def forward(self, predictions, targets):
         """Multibox Loss
@@ -111,7 +113,8 @@ class MultiBoxLoss(nn.Module):
         conf_p = conf_data[(pos_idx+neg_idx).gt(0)].view(-1, self.num_classes)
         targets_weighted = conf_t[(pos+neg).gt(0)]
         # loss_c = F.cross_entropy(conf_p, targets_weighted, size_average=False)
-        loss_c = F.cross_entropy(conf_p, targets_weighted, reduction='sum')
+        # loss_c = F.cross_entropy(conf_p, targets_weighted, reduction='sum')
+        loss_c = self.FL(conf_p, targets_weighted)
 
         # Sum of losses: L(x,c,l,g) = (Lconf(x, c) + αLloc(x,l,g)) / N
 
@@ -119,3 +122,5 @@ class MultiBoxLoss(nn.Module):
         loss_l /= N
         loss_c /= N
         return loss_l, loss_c
+    
+

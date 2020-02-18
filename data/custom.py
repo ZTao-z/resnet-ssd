@@ -93,7 +93,7 @@ class customDetection(data.Dataset):
     """
 
     def __init__(self, root,
-                 image_sets=[('shenhe', 'trainval')],
+                 image_sets=[('shenhe', 'train')],
                  transform=None, target_transform=customAnnotationTransform(),
                  dataset_name='custom'):
         self.root = root
