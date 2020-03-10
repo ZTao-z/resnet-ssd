@@ -6,7 +6,7 @@ from layers import *
 from data import voc, coco, custom
 import os
 
-from netModel.resnet import resnet101, BasicBlock
+from netModel.resnet import resnet34, resnet101, BasicBlock, Bottleneck
 
 
 class SSD(nn.Module):
@@ -147,7 +147,7 @@ def vgg(cfg, i, batch_norm=False):
     return layers
 
 def resnet():
-    resnet = resnet101(pretrained=True)
+    resnet = resnet34(pretrained=True)
     layers = [
         resnet.conv1,
         resnet.bn1,
@@ -182,10 +182,16 @@ def multibox(resnet, extra_layers, cfg, num_classes):
     conf_layers = []
     resnet_source = [-2, -1]
     for k, v in enumerate(resnet_source):
-        loc_layers += [nn.Conv2d(resnet[v][-1].conv3.out_channels,
-                                 cfg[k] * 4, kernel_size=3, padding=1)]
-        conf_layers += [nn.Conv2d(resnet[v][-1].conv3.out_channels,
-                        cfg[k] * num_classes, kernel_size=3, padding=1)]
+        if resnet[v] == Bottleneck:
+            loc_layers += [nn.Conv2d(resnet[v][-1].conv3.out_channels,
+                                    cfg[k] * 4, kernel_size=3, padding=1)]
+            conf_layers += [nn.Conv2d(resnet[v][-1].conv3.out_channels,
+                            cfg[k] * num_classes, kernel_size=3, padding=1)]
+        else:
+            loc_layers += [nn.Conv2d(resnet[v][-1].conv2.out_channels,
+                                    cfg[k] * 4, kernel_size=3, padding=1)]
+            conf_layers += [nn.Conv2d(resnet[v][-1].conv2.out_channels,
+                            cfg[k] * num_classes, kernel_size=3, padding=1)]
     for k, v in enumerate(extra_layers[1::2], 2):
         loc_layers += [nn.Conv2d(v.out_channels, cfg[k]
                                  * 4, kernel_size=3, padding=1)]
@@ -218,6 +224,6 @@ def build_ssd(phase, size=300, num_classes=21):
               "currently only SSD300 (size=300) is supported!")
         return
     base_, extras_, head_ = multibox(resnet(),
-                                     add_extras(extras[str(size)], 2048),
+                                     add_extras(extras[str(size)], 512),
                                      mbox[str(size)], num_classes)
     return SSD(phase, size, base_, extras_, head_, num_classes)
